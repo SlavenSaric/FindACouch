@@ -12,7 +12,7 @@ const router = createRouter({
     routes: [
         {path: '/', redirect: '/couches'},
         {path: '/couches', component: CouchesList},
-        {path: '/couches/:id', component: CouchesDetail, children: [
+        {path: '/couches/:id', component: CouchesDetail, props:true,  children: [
             {path: 'contact', component: ContactCouch}
         ]},
         {path: '/register', component: CouchResistration},
