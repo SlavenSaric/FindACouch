@@ -6,7 +6,7 @@
     <base-card>
     <div class="controls">
       <base-button mode="outline">Refresh</base-button>
-      <base-button link to="/register">Register as a Couch</base-button>
+      <base-button link to="/register" v-if="!isCouch">Register as a Couch</base-button>
     </div>
     <ul v-if="hasCouches">
       <CouchItem
@@ -45,6 +45,9 @@ export default {
     }
   },
   computed: {
+    isCouch(){
+        return this.$store.getters['couches/isCouch']
+    },
     filteredCouches() {
        const couches = this.$store.getters['couches/couches'];
        return couches.filter(couch => {
