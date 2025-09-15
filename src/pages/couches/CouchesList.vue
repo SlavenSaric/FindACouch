@@ -1,5 +1,7 @@
 <template>
-  <section>FILTER</section>
+  <section>
+    <couch-filter @change-filter="setFilters"></couch-filter>
+  </section>
   <section>
     <base-card>
     <div class="controls">
@@ -26,19 +28,48 @@
 
 <script>
 import CouchItem from '../../components/couches/CouchItem.vue';
+import CouchFilter from '../../components/couches/CouchFilter.vue';
 
 export default {
   components: {
     CouchItem,
+    CouchFilter
+  },
+  data(){
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true
+      }
+    }
   },
   computed: {
     filteredCouches() {
-      return this.$store.getters['couches/couches'];
+       const couches = this.$store.getters['couches/couches'];
+       return couches.filter(couch => {
+        if(this.activeFilters.frontend && couch.areas.includes('frontend')){
+          return true
+        }
+        if(this.activeFilters.backend && couch.areas.includes('backend')){
+          return true
+        }
+        if(this.activeFilters.career && couch.areas.includes('career')){
+          return true
+        }
+        return false
+        
+       })
     },
     hasCouches() {
       return this.$store.getters['couches/hasCouches'];
     },
   },
+  methods: {
+    setFilters(updatedFilters){
+      this.activeFilters = updatedFilters
+    }
+  }
 };
 </script>
 
